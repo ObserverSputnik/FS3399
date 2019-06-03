@@ -1,3 +1,5 @@
+""" ------------------Vision.py------------------- """
+""" this is the vision part of FS399 project"""
 import cv2
 import numpy as np
 import time
@@ -5,33 +7,31 @@ import MotionControl as MC
 import math
 from ctypes import *
 
-lc = cdll.LoadLibrary('./lowLevelCom.so')
-llm = cdll.LoadLibrary('./lowLevelMath.so')
-outflag = 0
-lowerBuffHeight = 200
-criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 4, 1.0)
-K = 3
-AutoCom = ord(' ')
-imgVar = 1000
+lc = cdll.LoadLibrary('./lowLevelCom.so')         #import lowLevelCom.so 
+llm = cdll.LoadLibrary('./lowLevelMath.so')     #import lowLevelMath.so 
+outflag = 0                                                                       # for writing video file
+lowerBuffHeight = 200                                               # trimed image height
+AutoCom = ord(' ')                                                       # auto mode command
+imgVar = 1000                                                                # image varience threshold
 #-----------------------
 #      ProcessFlag
 #----- flag table ------
 #bitNum |   func
 #-------|---------------
-#   0   |	FILE OUTPUT
-#   1	|   none
-#   2	|   FACE TRACK
-#   3	|   
-#	4	|
-#	5	|
-#	6	|
-#	7	|
+#   0     |	FILE OUTPUT
+#   1     |   none
+#   2     |   FACE TRACK
+#   3     |   
+#   4     |
+#   5     |
+#   6     |
+#   7     |
 
-def GetVisionCommand():
+def GetVisionCommand():   #pass auto mode command
 	return AutoCom
+
 # ------------------- VS.Init --------------------
 def Init(processFlag):
-	
 	# global var
 	global cap,frame,face,frameBuff,NavFullBuff               # full image buffers
 	global lastFrame,fDiff,lowerBuff,lowerGray,NavBuff,Kbuff  # trimed buffers
@@ -44,6 +44,8 @@ def Init(processFlag):
 	cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 	cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
 	ret,frame = cap.read()
+	
+	#pass image info
 	height = np.size(frame, 0)
 	width = np.size(frame, 1)
 	
