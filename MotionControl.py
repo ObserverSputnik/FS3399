@@ -16,6 +16,9 @@ AutoFlag = 1
 #---- pass param flag ----#
 
 def PollFlag():
+	global flag 
+	if lc.readButton1():
+		flag = 0
 	return flag 
 	
 #------------- Init --------------#
@@ -40,20 +43,20 @@ def checkKey(e):
 		lc.setCommand(ord('w'),Speed,0,0)
 		State = ord('w')
 
-#	elif keyboard.is_pressed('s'):
-#		Speed=255
-#		lc.setCommand(ord('s'),Speed,0,0)
-#		State = ord('s')
-#
-#	elif keyboard.is_pressed('a'):
-#		Speed=255
-#		lc.setCommand(ord('a'),Speed,0,0)
-#		State = ord('a')
-#	
-#	elif keyboard.is_pressed('d'):
-#		Speed=255
-#		lc.setCommand(ord('d'),Speed,0,0)
-#		State = ord('d')
+	elif keyboard.is_pressed('s'):
+		Speed=255
+		lc.setCommand(ord('s'),Speed,0,0)
+		State = ord('s')
+
+	elif keyboard.is_pressed('a'):
+		Speed=255
+		lc.setCommand(ord('a'),Speed,0,0)
+		State = ord('a')
+	
+	elif keyboard.is_pressed('d'):
+		Speed=255
+		lc.setCommand(ord('d'),Speed,0,0)
+		State = ord('d')
 
 	elif keyboard.is_pressed(' '):
 		Speed=0
@@ -69,8 +72,8 @@ def checkKey(e):
 		TrackFlag = 0
 		AutoFlag = 0
 		
-#	elif keyboard.is_pressed('e'):
-#		TrackFlag = 1
+	elif keyboard.is_pressed('e'):
+		TrackFlag = 1
 #		
 	elif keyboard.is_pressed('f'):
 		AutoFlag = 1
@@ -113,3 +116,8 @@ def Track(target):
 def SetMotor(mode, speed):
 	lc.setCommand(mode,speed,0,0)
 	State = mode
+
+def stop():
+	lc.setCommand(' ',0,0,0)
+	lc.endTask()
+	

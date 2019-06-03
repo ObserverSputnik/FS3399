@@ -74,7 +74,7 @@ def Init(processFlag):
 def getFrame():
 	global cap, frame,lastFrame,fDiff,lowerBuff,lowerGray,NavBuff,imgVar 
 	ret, frame = cap.read()  # Read an frame from the webcam.
-	imgVar = np.var(frame) 
+	#imgVar = np.var(frame) 
 	#print imgVar
 	#print "image var is ",imgDeviation
 	#update lower buffer
@@ -144,26 +144,7 @@ def getFaceLoc():
 def getContor(img):
 	image,contours,h = cv2.findContours(img,1,2)
 	return contours,h
-	
-	
-def getKmean(img):
-	global K, criteria
-	centerMod = []
-	Z = img.reshape((-1,3))
-	# convert to np.float32
-	Z = np.float32(Z)
-	# define criteria, number of clusters(K) and apply kmeans()
-	ret,label,centers=cv2.kmeans(Z,K,None,criteria,10,cv2.KMEANS_RANDOM_CENTERS)
-	# Now convert back into uint8, and make original image
-	centers = np.uint8(centers)
-	res = centers[label.flatten()]
-	res2 = res.reshape((img.shape))
-	for center in centers:
-		mod = math.sqrt((center[0]**2)+math.sqrt((center[1]**2)+(center[2]**2)))
-		centerMod.append(mod)
-	#print centerMod
-	return res2,centerMod
-    
+
 	
 def endCap():
 	global outflag,cap,out
@@ -201,31 +182,19 @@ def ObsDetect(img):
 	contoursR,hR = getContor(fDiffR)
 	contourNumL = len(contoursL)
 	contourNumR = len(contoursR)
-	#cv2.drawContours(lowerBuff,contoursL,-1,(0,255,0),3)
-	#cv2.drawContours(lowerBuff,contoursR,-1,(0,255,0),3)
 	
 	####-------- decision making --------####
 	if secVars[0]>lim and secVars[1]<lim and secVars[2]<lim or meanDiffL>40 or contourNumL>5:
 		AutoCom = ord('d')
-		print "go right"
-		
 	elif secVars[2]>lim and secVars[1]<lim and secVars[0]<lim or meanDiffR>40 or contourNumR>5:
 		AutoCom = ord('a')
-		print "go left"
-		
 	elif secVars[1]>lim or imgVar < 200:
 		if meanDiffL>meanDiffR or contourNumR>contourNumL:
 			AutoCom = ord('a')
-			print "too close, go left"
-			
 		elif meanDiffR>meanDiffL or contourNumL>contourNumR:
 			AutoCom = ord('d')
-			print "too close, go right"
-			
 		else:
 			AutoCom = ord('d')
-			print "too close, run away"
-			
 	else:
 		AutoCom = ord('w')
 		

@@ -10,6 +10,9 @@
 #define EOS 'y'
 #define LED1Pin 4
 #define LED2Pin 5
+#define EN 7
+#define button2 0
+#define button1 2
 extern "C"
 {
 	char UARTBuffer[10];
@@ -35,8 +38,11 @@ extern "C"
 	void TurnLED1(int state) {digitalWrite(LED1Pin,state);}
 	void TurnLED2(int state) {digitalWrite(LED2Pin,state);}
 	void trackLoc(int diff, int tol);
+	int readButton1() {return digitalRead(button1);}
+	int readButton2() {return digitalRead(button2);}
 	int readFromSTM();
 	void setCapParam(int Width, int Height);
+	void endTask();
 }
 
 
@@ -62,6 +68,10 @@ void setup()
   wiringPiSetup();    
   pinMode(LED1Pin,OUTPUT);
   pinMode(LED2Pin,OUTPUT);
+  pinMode(EN,OUTPUT);
+  pinMode(button1,INPUT);
+  pinMode(button2,INPUT);
+  digitalWrite(EN,1);
   delay(2000); 
   UARTInit();
   UARTBuffer[0] = ' ';
@@ -157,7 +167,10 @@ void setCapParam(int Width, int Height)
 	height = Height;
 }
 
-
+void endTask()
+{
+	digitalWrite(EN,0);
+}
 
 
 

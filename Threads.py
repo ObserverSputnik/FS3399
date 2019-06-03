@@ -30,7 +30,6 @@ class capThread(threading.Thread):
 				trackDoneFlag = 0
 			if NavDoneFlag:
 				NavDoneFlag = 0
-			
 		print "stop Cap"
 					
 					
@@ -47,8 +46,6 @@ class faceTrackThread(threading.Thread):
 				if MC.TrackFlag == 1:
 					MC.Track(x)
 		print "Stop Face Cap"
-		
-##########--------- NavThread not yet used ---------################
 	
 class NavThread(threading.Thread):
 	def __init__(self):
