@@ -2,23 +2,22 @@ this is project FS3399. A part of FlashSnail project.
 this project runs on nanoPi NEO4, with RK3399 CPU.
 
 file structure:
-			    FS.py
-			  /   |   \
-			 /thread.py\
-		    /   /   \   \
-	     Vision.py  MotionControl.py
-	          |   X  |
-	          |  / \ |
-  lowLevelCom.cpp   lowLevelMath.cpp
-  
+	      FS.py
+	    /   |   \
+	   /thread.py\
+	  /   /   \   \
+      Vision.py   MotionControl.py
+	  |     X  	 |
+          |    / \ 	 |
+lowLevelCom.cpp   lowLevelMath.cpp
   
 Hardware structure:
 
-							 ---battery ADC
-	   USB		  UART		/     PWM
+			    ---battery ADC
+       USB	  UART	   /      PWM
 camera-----RK3399------STM32F103------Motors
-			 \				\
-			  ---LEDs	     ---buttons
+		\	   \
+		 ---LED     ---buttons
 							 
 							 
 before you use the code:
